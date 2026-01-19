@@ -1,5 +1,6 @@
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { CartSidebar } from '@/features/cart/components/CartSidebar';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         </div>
       </main>
       <Footer />
+      <CartSidebar />
     </div>
   );
 }

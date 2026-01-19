@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom';
-import { Coffee, ShoppingCart, User as UserIcon, LogOut } from 'lucide-react';
+import { Coffee, User as UserIcon, LogOut } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { Button } from '../ui';
-// import { useCart } from '@/features/cart/hooks/useCart'; // TODO: Implement Cart context
+import { CartIcon } from '@/features/cart/components/CartIcon';
 
 export function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
-  // const { items } = useCart();
-  const cartItemCount = 0; // items.length
 
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md">
@@ -18,14 +16,7 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center space-x-4">
-          <Link to="/cart" className="relative p-2 text-gray-600 hover:text-coffee-600">
-            <ShoppingCart className="h-6 w-6" />
-            {cartItemCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-medium text-white">
-                {cartItemCount}
-              </span>
-            )}
-          </Link>
+          <CartIcon />
 
           {isAuthenticated ? (
             <div className="flex items-center space-x-4">
