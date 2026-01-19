@@ -1,5 +1,5 @@
 import api from '@/shared/services/api';
-import { AuthTokens, LoginCredentials, User, ApiResponse } from '@/shared/types';
+import { LoginCredentials, User, ApiResponse } from '@/shared/types';
 
 export const login = async (credentials: LoginCredentials): Promise<ApiResponse<{ user: User; accessToken: string; refreshToken: string }>> => {
   const response = await api.post('/auth/login', credentials);
