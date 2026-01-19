@@ -1,98 +1,56 @@
 # Coffee Shop Frontend
 
-A modern, responsive React application for a coffee shop, featuring a full customer shopping experience and a comprehensive admin panel for management. Built with React, TypeScript, Vite, and Tailwind CSS.
+Esta es la aplicación frontend para la gestión y venta de una cafetería moderna. Desarrollada con React, TypeScript, Vite y Tailwind CSS.
 
-## Features
+## 🚀 Ejecución Local
 
-### Customer Features
-- **Product Catalog**: Browse coffee products with search, pagination, and sorting.
-- **Product Details**: Detailed view with descriptions, stock status, and add-to-cart functionality.
-- **Shopping Cart**: Real-time cart management with persistence.
-- **Checkout Flow**: Streamlined checkout process with order summary and validation.
+Sigue estos pasos para correr el proyecto en tu máquina:
 
-### Admin Panel
-- **Dashboard**: Real-time analytics including revenue, sales count, top products, and low stock alerts. Visualization with interactive charts.
-- **Product Management**: Full CRUD capabilities for products with image support.
-- **Sales Management**: View and filter sales history by date range and view detailed order information.
-- **Customer Management**: Customer profiles, purchase history, and spending analytics.
+1. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
 
-## Tech Stack
-- **Framework**: React 18
-- **Language**: TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **State Management**: 
-  - `Zustand` (Global client state like Cart)
-  - `TanStack Query` (React Query) (Server state and caching)
-- **Routing**: React Router DOM v6
-- **Forms**: React Hook Form
-- **UI Components**: Custom components built with Tailwind
-- **Icons**: Lucide React
-- **Charts**: Recharts
+2. **Configurar variables de entorno:**
+   Crea un archivo `.env` en la raíz del proyecto y añade la URL de tu backend:
+   ```env
+   VITE_API_URL=http://localhost:3001/api
+   ```
 
-## Getting Started
+3. **Iniciar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
 
-### Prerequisites
-- Node.js (v18 or higher)
-- npm or yarn
+La aplicación estará disponible en `http://localhost:5173`.
 
-### Installation
+---
 
-1.  **Clone the repository**
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
+## 🔐 Credenciales de Acceso (Admin)
 
-### Configuration
+Para probar las funcionalidades de administración, puedes usar los siguientes datos:
 
-Create a `.env` file in the root directory (copy from `.env.example`):
+- **Usuario:** `test_user@example.com`
+- **Contraseña:** `Password123!`
 
-```env
-VITE_API_URL=http://localhost:3000/api
-```
+---
 
-### Running the Application
+## 🏗️ Decisiones de Arquitectura
 
-Start the development server:
+El proyecto utiliza una arquitectura basada en **Módulos por Características (Feature-based Architecture)** para asegurar escalabilidad y mantenibilidad:
 
-```bash
-npm run dev
-```
+- **Estructura Modular:** Cada funcionalidad principal (Admin, Catálogo, Carrito, Checkout) está contenida en `src/features/`. Esto facilita localizar errores y añadir nuevas funciones sin afectar al resto.
+- **Gestión de Estado Híbrida:**
+  - **TanStack Query (React Query):** Se utiliza para todo el estado del servidor. Maneja automáticamente el caché, estados de carga y reintentos, reduciendo la complejidad de las llamadas API.
+  - **Zustand:** Se usa para estados globales ligeros del lado del cliente, como la persistencia del carrito de compras y los tokens de sesión.
+- **Capa de Servicios y Hooks:** La lógica de negocio y las llamadas a la API están separadas de la interfaz de usuario mediante servicios personalizados y hooks, siguiendo el principio de responsabilidad única.
+- **Diseño con Tailwind CSS:** Permite una UI altamente personalizada y responsiva con un bundle final optimizado.
 
-The application will be available at `http://localhost:5173`.
+---
 
-### Building for Production
+## 📂 Organización de Archivos
 
-To build the application for deployment:
-
-```bash
-npm run build
-```
-
-Previews the production build:
-
-```bash
-npm run preview
-```
-
-## Project Structure
-
-The project follows a feature-based architecture:
-
-```
-src/
-├── features/           # Feature-specific code
-│   ├── admin/          # Admin panel features (dashboard, products, etc.)
-│   ├── cart/           # Shopping cart functionality
-│   ├── catalog/        # Product browsing and searching
-│   ├── checkout/       # Checkout process
-│   └── home/           # Landing page
-├── shared/             # Shared code used across features
-│   ├── components/     # Reusable UI components
-│   ├── hooks/          # Shared custom hooks
-│   ├── types/          # Shared TypeScript interfaces
-│   └── utils/          # Utility functions
-├── routes/             # App routing configuration
-└── assets/             # Static assets
-```
+- `src/features/`: Lógica y componentes específicos de cada funcionalidad.
+- `src/shared/`: Componentes UI reutilizables, hooks globales, tipos y utilidades comunes.
+- `src/routes/`: Configuración centralizada de rutas de la aplicación.
+- `src/assets/`: Recursos estáticos como imágenes y estilos globales.
