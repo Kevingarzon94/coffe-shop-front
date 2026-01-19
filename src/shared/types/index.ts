@@ -94,10 +94,10 @@ export interface Sale {
 export interface CreateSaleData {
   items: { productId: string; quantity: number }[];
   customerId?: string;
-  guestCustomer?: {
-    name: string;
+  customer?: {
+    firstName: string;
+    lastName: string;
     email: string;
-    address?: string;
   };
   paymentMethod: 'cash' | 'card' | 'transfer';
 }

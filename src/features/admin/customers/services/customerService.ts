@@ -10,11 +10,11 @@ export interface AdminCustomerParams {
 }
 
 export const getCustomers = async (params?: AdminCustomerParams): Promise<PaginatedResponse<Customer>> => {
-    const response = await api.get('/admin/customers', { params });
+    const response = await api.get('/customers', { params });
     return response.data;
 };
 
 export const getCustomerById = async (id: string): Promise<ApiResponse<Customer & { purchases: Sale[] }>> => {
-    const response = await api.get(`/admin/customers/${id}`);
+    const response = await api.get(`/customers/${id}`);
     return response.data;
 };

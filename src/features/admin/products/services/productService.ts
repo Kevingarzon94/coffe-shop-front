@@ -23,7 +23,9 @@ export const getProductById = async (id: string): Promise<ApiResponse<Product>> 
 export const createProduct = async (data: CreateProductData): Promise<ApiResponse<Product>> => {
     const formData = createFormData(data);
     const response = await api.post('/products', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+            'Content-Type': undefined as any
+        }
     });
     return response.data;
 };
@@ -31,7 +33,9 @@ export const createProduct = async (data: CreateProductData): Promise<ApiRespons
 export const updateProduct = async (id: string, data: UpdateProductData): Promise<ApiResponse<Product>> => {
     const formData = createFormData(data);
     const response = await api.put(`/products/${id}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+            'Content-Type': undefined as any
+        }
     });
     return response.data;
 };

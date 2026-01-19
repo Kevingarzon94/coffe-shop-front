@@ -54,48 +54,17 @@ export function CheckoutPage() {
     try {
       setIsSubmitting(true);
 
-      const saleData = {
-        customer: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          address: formData.address,
-        },
+      const response = await createSale({
         items: items.map(item => ({
           productId: item.product.id,
           quantity: item.quantity
         })),
-        paymentMethod: formData.paymentMethod
-      };
-
-      // Adapted to match what the backend likely expects based on shared types
-      // The shared type CreateSaleData says: 
-      // items: { productId: string; quantity: number }[];
-      // customerId?: string;
-      // paymentMethod: 'cash' | 'card' | 'transfer';
-      // It seems we need to create customer first or send customer data. 
-      // The prompt said: createSale(data: CreateSaleData). 
-      // Let's assume for this "public" checkout we might need an endpoint that accepts guest customer data.
-      // Or we just send what we have. 
-      // Since I don't have the backend code for 'sales', I will implement based on the requirement.
-      // Requirement said: createSale(data: CreateSaleData)
-      // And shared type has `customerId?`.
-      // If we are guest, we might pass customer object if backend supports it, OR we are just mocking it for now.
-      // Let's pass the payload and expect the backend to handle it (or mock it).
-
-      // For now, let's assume we send this to the service and the service maps it.
-      // But wait, the service takes CreateSaleData. 
-      // Let's adjust the call to match the interface or mock the customer ID generation.
-
-      // Mocking the behavior since we might not have a public create-sale-with-customer endpoint yet?
-      // "Checkout service: createSale(data: CreateSaleData)"
-      // Let's proceed with the call.
-
-      const response = await createSale({
-        items: saleData.items,
-        paymentMethod: saleData.paymentMethod,
-        // Passing customer data in a way that might be handled or ignored if strictly typed
-        // @ts-ignore
-        guestCustomer: saleData.customer
+        paymentMethod: formData.paymentMethod,
+        customer: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+        }
       });
 
       if (response.success) {

@@ -32,6 +32,11 @@ export const useCreateProduct = () => {
             navigate('/admin/products');
         },
         onError: (error: any) => {
+            console.error('Error creating product:', error);
+            if (error.response) {
+                console.error('Response data:', JSON.stringify(error.response.data, null, 2));
+                console.error('Response status:', error.response.status);
+            }
             toast.error(error.response?.data?.message || 'Error al crear producto');
         },
     });

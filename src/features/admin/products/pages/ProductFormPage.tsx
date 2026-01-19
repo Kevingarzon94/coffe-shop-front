@@ -20,6 +20,7 @@ export function ProductFormPage() {
         description: '',
         price: '',
         stock: '',
+        category: '',
     });
 
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -32,6 +33,7 @@ export function ProductFormPage() {
                 description: product.data.description,
                 price: product.data.price.toString(),
                 stock: product.data.stock.toString(),
+                category: product.data.category || '',
             });
             setImagePreview(product.data.imageUrl || null);
         }
@@ -58,6 +60,7 @@ export function ProductFormPage() {
             description: formData.description,
             price: Number(formData.price),
             stock: Number(formData.stock),
+            category: formData.category,
             image: imageFile || undefined
         };
 
@@ -114,6 +117,21 @@ export function ProductFormPage() {
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                         required
                     />
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">Categoría</label>
+                        <select
+                            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-coffee-500 focus:outline-none focus:ring-1 focus:ring-coffee-500"
+                            value={formData.category}
+                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                            required
+                        >
+                            <option value="">Seleccionar categoría</option>
+                            <option value="Cafe">Café</option>
+                            <option value="Comida">Comida</option>
+                            <option value="Accesorios">Accesorios</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div>

@@ -16,9 +16,16 @@ api.interceptors.request.use(
   (config) => {
     const tokensString = localStorage.getItem('auth_tokens');
     if (tokensString) {
-      const tokens: AuthTokens = JSON.parse(tokensString);
-      if (tokens.accessToken) {
-        config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+      // console.log('Found tokens in storage');
+      try {
+        const tokens: AuthTokens = JSON.parse(tokensString);
+        if (tokens.accessToken) {
+          console.log('Attaching Access Token to request:', config.url);
+          config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+        }
+      } catch (error) {
+        console.warn('Invalid auth token in storage, clearing...');
+        localStorage.removeItem('auth_tokens');
       }
     }
     return config;
@@ -77,7 +84,13 @@ api.interceptors.response.use(
         const tokensString = localStorage.getItem('auth_tokens');
         if (!tokensString) throw new Error('No tokens');
 
-        const tokens: AuthTokens = JSON.parse(tokensString);
+        let tokens: AuthTokens;
+        try {
+          tokens = JSON.parse(tokensString);
+        } catch (e) {
+          localStorage.removeItem('auth_tokens');
+          throw new Error('Invalid tokens');
+        }
         // Direct call using absolute URL or separate instance to avoid interceptor loop
         const response = await axios.post(`${API_URL}/auth/refresh`, {
           refreshToken: tokens.refreshToken
@@ -93,6 +106,7 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
       } catch (err) {
+        console.error('Refresh token failed:', err);
         processQueue(err, null);
         localStorage.removeItem('auth_tokens');
         localStorage.removeItem('user_data');
@@ -104,7 +118,7 @@ api.interceptors.response.use(
     }
 
     // Generic error handling
-    if (!originalRequest.url?.includes('/auth/me')) { // Don't toast on silent checks
+    if (!originalRequest?.url?.includes('/auth/me')) { // Don't toast on silent checks
       const message = (error.response?.data as any)?.message || 'Something went wrong';
       toast.error(message);
     }
@@ -127,6 +141,10 @@ export const createFormData = (data: Record<string, any>) => {
       formData.append(key, value);
     }
   });
+
+  // Debug FormData
+  // console.log('FormData created for keys:', Array.from((formData as any).keys()));
+
   return formData;
 };
 

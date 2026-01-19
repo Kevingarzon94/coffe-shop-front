@@ -53,9 +53,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(true);
       const response = await authService.login(credentials);
       if (response.success) {
-        setTokens(response.data.tokens);
-        setUser(response.data.user);
-        toast.success(`Bienvenido, ${response.data.user.name}`);
+        console.log('Login response:', response.data);
+        // Check if tokens are at root level (as per logs) or nested
+        const data = response.data as any;
+        const accessToken = data.accessToken || data.tokens?.accessToken;
+        const refreshToken = data.refreshToken || data.tokens?.refreshToken;
+
+        if (!accessToken || !refreshToken) {
+          console.error('Login successful but no tokens received!', response);
+          toast.error('Error de autenticación: No se recibieron tokens');
+          return;
+        }
+
+        const validTokens = { accessToken, refreshToken };
+        setTokens(validTokens);
+        setUser(data.user);
+        toast.success(`Bienvenido, ${data.user.name}`);
       }
     } catch (error: any) {
       // Error handled by intersector/component
