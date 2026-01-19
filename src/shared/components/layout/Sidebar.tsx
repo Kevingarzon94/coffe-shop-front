@@ -1,12 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, Coffee } from 'lucide-react';
+import { LayoutDashboard, Package, Receipt, Users, LogOut, Coffee } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { cn } from '@/shared/utils/cn';
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Productos', href: '/admin/products', icon: Package },
-  { name: 'Ventas', href: '/admin/sales', icon: ShoppingBag },
+  { name: 'Ventas', href: '/admin/sales', icon: Receipt },
   { name: 'Clientes', href: '/admin/customers', icon: Users },
 ];
 

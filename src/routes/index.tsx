@@ -9,13 +9,13 @@ import { CatalogPage } from '@/features/catalog/pages/CatalogPage';
 import { CartPage } from '@/features/cart/pages/CartPage';
 import { CheckoutPage } from '@/features/checkout/pages/CheckoutPage';
 import { LoginPage } from '@/features/auth/pages/LoginPage';
-import { DashboardPage } from '@/features/admin/pages/DashboardPage';
-import { ProductsPage } from '@/features/admin/pages/ProductsPage';
-import { ProductFormPage } from '@/features/admin/pages/ProductFormPage';
-import { SalesPage } from '@/features/admin/pages/SalesPage';
-import { SaleDetailPage } from '@/features/admin/pages/SaleDetailPage';
-import { CustomersPage } from '@/features/admin/pages/CustomersPage';
-import { CustomerDetailPage } from '@/features/admin/pages/CustomerDetailPage';
+import { DashboardPage } from '@/features/admin/dashboard/pages/DashboardPage';
+import { ProductsPage } from '@/features/admin/products/pages/ProductsPage';
+import { ProductFormPage } from '@/features/admin/products/pages/ProductFormPage';
+import { SalesPage } from '@/features/admin/sales/pages/SalesPage';
+import { SaleDetailPage } from '@/features/admin/sales/pages/SaleDetailPage';
+import { CustomersPage } from '@/features/admin/customers/pages/CustomersPage';
+import { CustomerDetailPage } from '@/features/admin/customers/pages/CustomerDetailPage';
 
 export function AppRoutes() {
   return (

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { ProductGrid } from '../components/ProductGrid';
@@ -29,30 +29,30 @@ export function CatalogPage() {
     ...sortParams
   });
 
-  const handleSearchChange = (value: string) => {
+  const handleSearchChange = useCallback((value: string) => {
     setSearchParams(prev => {
       if (value) prev.set('search', value);
       else prev.delete('search');
       prev.set('page', '1'); // Reset to page 1
       return prev;
     });
-  };
+  }, [setSearchParams]);
 
-  const handleSortChange = (value: string) => {
+  const handleSortChange = useCallback((value: string) => {
     setSearchParams(prev => {
       if (value) prev.set('sort', value);
       else prev.delete('sort');
       return prev;
     });
-  };
+  }, [setSearchParams]);
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = useCallback((newPage: number) => {
     setSearchParams(prev => {
       prev.set('page', newPage.toString());
       return prev;
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, [setSearchParams]);
 
   return (
     <div className="space-y-8">
@@ -68,6 +68,7 @@ export function CatalogPage() {
       <ProductFilters
         onSearchChange={handleSearchChange}
         onSortChange={handleSortChange}
+        initialSearch={search}
       />
 
       {/* Grid */}

@@ -62,24 +62,30 @@ export interface Customer {
   phone?: string;
   address?: string;
   totalPurchases: number;
+  totalSpent: number;
   createdAt: string;
 }
 
 // Sales
 export interface SaleItem {
+  id: string;
   productId: string;
   productName: string;
   quantity: number;
   unitPrice: number;
-  total: number;
+  totalPrice: number;
 }
 
 export interface Sale {
   id: string;
-  customerId?: string;
-  customerName?: string;
+  customer?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  customerId?: string; // Legacy/Backend compat
   items: SaleItem[];
-  totalAmount: number;
+  total: number;
   status: 'pending' | 'completed' | 'cancelled';
   paymentMethod: 'cash' | 'card' | 'transfer';
   date: string;
@@ -88,28 +94,35 @@ export interface Sale {
 export interface CreateSaleData {
   items: { productId: string; quantity: number }[];
   customerId?: string;
+  guestCustomer?: {
+    name: string;
+    email: string;
+    address?: string;
+  };
   paymentMethod: 'cash' | 'card' | 'transfer';
 }
 
 // Dashboard
 export interface TopProduct {
-  productId: string;
+  id: string;
   name: string;
-  totalSold: number;
-  revenue: number;
+  totalQuantity: number;
+  totalRevenue: number;
 }
 
 export interface TopCustomer {
-  customerId: string;
+  id: string;
   name: string;
+  email: string;
   totalSpent: number;
-  purchasesCount: number;
+  totalPurchases: number;
 }
 
 export interface LowStockProduct {
   id: string;
   name: string;
   stock: number;
+  imageUrl?: string;
 }
 
 export interface SalesChartData {
@@ -119,13 +132,14 @@ export interface SalesChartData {
 }
 
 export interface DashboardSummary {
+  totalRevenue: number;
   totalSales: number;
-  totalOrders: number;
   totalCustomers: number;
+  lowStockCount: number;
+  totalOrders: number;
   averageOrderValue: number;
   topProducts: TopProduct[];
   topCustomers: TopCustomer[];
-  lowStockProducts: LowStockProduct[];
   salesChart: SalesChartData[];
 }
 

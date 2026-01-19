@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
 interface ProductFiltersProps {
     onSearchChange: (value: string) => void;
     onSortChange: (value: string) => void;
+    initialSearch?: string;
 }
 
-export function ProductFilters({ onSearchChange, onSortChange }: ProductFiltersProps) {
-    const [searchTerm, setSearchTerm] = useState('');
+export function ProductFilters({ onSearchChange, onSortChange, initialSearch = '' }: ProductFiltersProps) {
+    const [searchTerm, setSearchTerm] = useState(initialSearch);
     const debouncedSearch = useDebounce(searchTerm, 500);
 
     useEffect(() => {
